@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+
+# Bower
+bower_components/
+
+# Composer
+vendor/
+
+# Python virtual environment
+venv/
+env/
+
+# Temporary/Build files
+*.log
+*.tmp
+*.swp
+build/
+dist/
+
+# IDE/Editor specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.idea
+*.iml
+
+# System files
+.DS_Store
+Thumbs.db
