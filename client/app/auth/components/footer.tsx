@@ -7,7 +7,7 @@ interface FooterProps {
 const Footer = ({ footerlabel, footerhref }: FooterProps) => {
   return (
     <div className="w-full">
-      <a className="cursor-pointer" onClick={() => {}} href={footerhref}>
+      <a className="cursor-pointer" href={footerhref}>
         <p className="text-right text-slate-500 text-sm hover:text-blue-400">{footerlabel}</p>
       </a>
     </div>

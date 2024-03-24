@@ -18,6 +18,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useTransition } from 'react';
+import axios, { AxiosResponse } from 'axios';
+
+export interface User {
+  username?: string;
+  email: string;
+  password: string;
+}
 
 export const LoginForm = () => {
   const [isPending] = useTransition();
@@ -28,8 +35,15 @@ export const LoginForm = () => {
       password: ""
     },
   })
-  const onSubmit = (values : z.infer<typeof LoginFormSchema>) => {
-    
+
+  const handleSubmit = async (values : User) => {
+    const response : AxiosResponse = await axios.post("http://localhost:8000/login", {
+        ...values
+    });
+    console.log(response);
+  }
+  const onSubmit =  (values : z.infer<typeof LoginFormSchema>) => {
+    handleSubmit(values);
   }
   return (
     <CardWrapper 

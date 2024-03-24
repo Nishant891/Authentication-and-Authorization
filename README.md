@@ -1,4 +1,4 @@
-### Completed building signup with email verification for my authentication project🎯🚀
+## Completed building signup with email verification for my authentication project🎯🚀
 ## It's features will be -
 # 1.🔐Forgot password functionality
 # 2.📧Email verification

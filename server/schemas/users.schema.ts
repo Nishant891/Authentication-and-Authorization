@@ -29,6 +29,9 @@ const UserSchema = new Schema({
         `${props.value} is not a valid password!`,
     },
   },
+  refreshToken: {
+    type: String,
+  }
 });
 
 export const UserModel = model("User", UserSchema);

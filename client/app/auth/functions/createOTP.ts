@@ -25,7 +25,7 @@ export const createOTP = async (user : User, setUser : Function, setActivationCo
         });
 
         const result: Return = response.data;
-
+        
         if(!result.success){
             return {
                 success: result.success,
@@ -56,7 +56,7 @@ export const createOTP = async (user : User, setUser : Function, setActivationCo
     } catch (error) {
         return{
             success: false,
-            message: "OTP cannot be sent"
+            message: "User already exists"
         }
     }
 }

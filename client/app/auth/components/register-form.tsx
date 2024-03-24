@@ -40,11 +40,13 @@ export const RegisterForm = () => {
   });
   const onSubmit = async (values: z.infer<typeof RegisterFormSchema>) => {
     const result = await createOTP(values, setUser, setActivationCode);
-    if (result.success) {
-      setSuccessMessage(result.message);
-      router.push("/auth/verification");
-    } else {
-      setErrorMessage(result.message);
+    if(result){
+      if (result.success) {
+        setSuccessMessage(result.message);
+        router.push("/auth/verification");
+      } else {
+        setErrorMessage(result.message);
+      }
     }
   };
   return (

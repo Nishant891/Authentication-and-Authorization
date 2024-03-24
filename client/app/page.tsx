@@ -46,8 +46,8 @@ export const Home = () => {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button size="lg" variant="outline" onClick={() => {handleSignupClick()}}>SignUp</Button>
-        <Button size="lg" onClick={() => {handleLoginClick()}}>Login</Button>
+        <Button size="lg" variant="outline" onClick={handleSignupClick}>SignUp</Button>
+        <Button size="lg" onClick={handleLoginClick}>Login</Button>
       </CardFooter>
     </Card>
   )
