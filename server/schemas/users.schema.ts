@@ -1,8 +1,7 @@
 import { Schema, model } from "mongoose";
 import { isEmail } from 'validator';
 
-const PasswordRegex =
-  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~`!@#$%^&*()\-_=+\\|[\]{};:'",<.>/?]).{6,}$/;
+const PasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~`!@#$%^&*()\-_=+\\|[\]{};:'",<.>/?]).{6,}$/;
 
 const UserSchema = new Schema({
   username: {
@@ -27,7 +26,7 @@ const UserSchema = new Schema({
       },
       message: (props: { value: any }) =>
         `${props.value} is not a valid password!`,
-    },
+    }
   },
   refreshToken: {
     type: String,

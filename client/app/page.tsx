@@ -13,6 +13,10 @@ import { Label } from "@/components/ui/label"
 import { useRecoilValue } from "recoil"
 import { userState } from "./auth/states/states"
 import { useRouter } from "next/navigation"
+import { logoutUser } from "./auth/functions/logoutUser"
+import axios from "axios"
+
+axios.defaults.withCredentials = true;
 
 export const Home = () => {
   const router = useRouter();
@@ -23,6 +27,10 @@ export const Home = () => {
   }
   const handleLoginClick = () => {
     router.push("/auth/login");
+  }
+  const handleLogoutClick = async () => {
+    const result = await logoutUser();
+    console.log(result);
   }
   return (
     <Card className="w-[350px]">
@@ -39,15 +47,13 @@ export const Home = () => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Email : {user.email}</Label>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Password : ********</Label>
-            </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button size="lg" variant="outline" onClick={handleSignupClick}>SignUp</Button>
-        <Button size="lg" onClick={handleLoginClick}>Login</Button>
+        <Button size="md" variant="outline" onClick={handleSignupClick}>SignUp</Button>
+        <Button size="md" onClick={handleLoginClick}>Login</Button>
+        <Button size="md" variant="destructive" onClick={handleLogoutClick}>Logout</Button>
       </CardFooter>
     </Card>
   )

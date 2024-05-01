@@ -21,8 +21,11 @@ import { activationCodeState } from '../states/states';
 import { createUser } from "../functions/createUser";
 import { userState } from "../states/states";
 import { useRouter } from "next/navigation";
+import { useCookies } from "react-cookie";
 
 const VerificationForm = () => {
+  const [accessTokenCookie, setAccessTokenCookie] = useCookies(['accessTokenCookie']);
+  const [refreshTokenCookie, setRefreshTokenCookie] = useCookies(['refreshTokenCookie']);
   const router = useRouter();
   const user = useRecoilValue(userState);
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,6 +40,16 @@ const VerificationForm = () => {
   const onSubmit = async (values: z.infer<typeof VerificationFormSchema>) => {
     if(values.code == activationCode){
         const result = await createUser(user);
+        setAccessTokenCookie("accessTokenCookie", result.accessToken, {
+          path: "/",
+          maxAge: 3600, // Expires after 1hr
+          sameSite: "strict"
+        });
+        setRefreshTokenCookie("refreshTokenCookie", result.refreshToken, {
+            path: "/",
+            maxAge: 7200, // Expires after 2hr
+            sameSite: "strict"
+        });
         if(result.success){
           router.push("/");
         }else{

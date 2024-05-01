@@ -19,10 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-gray-50 text-gray-950 p-2 flex justify-center items-center ${inter.className}`}>
-      <RecoilRootWrapper>
-        {children}
-        <Toaster/>
-      </RecoilRootWrapper>
+          <RecoilRootWrapper>
+            {children}
+            <Toaster/>
+          </RecoilRootWrapper>
       </body>
     </html>
   )

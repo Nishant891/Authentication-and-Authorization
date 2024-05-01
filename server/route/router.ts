@@ -1,6 +1,7 @@
 import express from "express";
-import { createOTP, createNewUser, checkUser } from "../controllers/user.controller";
+import { createOTP, createNewUser, loginUser, logoutUser } from "../controllers/user.controller";
 import { Request, Response, NextFunction } from "express";
+import { verifyUser } from "../middlewares/auth.middleware";
 
 export const router = express.Router();
 
@@ -12,7 +13,9 @@ router.post("/signup", createNewUser);
 
 router.post("/verification", createOTP);
 
-router.post("/login", checkUser);
+router.post("/login", loginUser);
+
+router.post("/logout", verifyUser, logoutUser);
 
 router.get('/favicon.ico', (req, res) => {
     res.status(404).send('Favicon not found');

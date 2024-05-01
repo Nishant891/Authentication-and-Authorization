@@ -1,21 +1,26 @@
-import { createUser, findUser, generateAccessToken, generateRefreshToken, updateToken } from "../services/user.service";
-import { User } from "../types/user.types";
+import { createUser, findUser, generateAccessToken, generateRefreshToken, updateRefreshToken } from "../services/user.service";
+import { User, ResponseData } from "../types/user.types";
 import { Request, Response } from "express";
 import { HandleError } from "../utils/error.handler";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { customRequest } from "../middlewares/auth.middleware";
 
 dotenv.config();
 
 export const createNewUser = async (req: Request, res: Response) => {
   const userData = req.body as User;
-
   try {
-    await createUser(userData);
-
+    const user = await createUser(userData);
+    const accessToken = await generateAccessToken(user);
+    const refreshToken = await generateRefreshToken(user._id);
+    user.refreshToken = refreshToken;
+    await user.save({validateBeforeSave: true});
     res.status(200).json({
       success: true,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
       message: "User created successfull",
     });
   } catch (err) {
@@ -69,7 +74,7 @@ export const createActivationCode = async (user: User) => {
   };
 };
 
-export const checkUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response) => {
   const userData = req.body as User;
 
   const user = await findUser(userData.email);
@@ -94,10 +99,30 @@ export const checkUser = async (req: Request, res: Response) => {
   const accessToken = await generateAccessToken(user);
   const refreshToken = await generateRefreshToken(Id.userId);
 
-  await updateToken(Id.userId, refreshToken);
-
-  res.status(200).json({
-    accessToken,
-    refreshToken
+  user.refreshToken = refreshToken;
+  await user.save({validateBeforeSave: true});
+  res
+  .status(200)
+  .json({
+    accessToken : accessToken,
+    refreshToken : refreshToken,
+    success: true,
+    message: "User loggedIn successfully",
   });
 };
+
+export const logoutUser = async(req:customRequest, res: Response) => {
+  try {
+    const userId = req.body.userId;
+    await updateRefreshToken(userId);
+    res
+    .status(200)
+    .json({
+      success: true,
+      message: "User logged out successfully"
+    })
+  } catch (error) {
+    throw new Error("Unable to logout user")
+  }
+}
+

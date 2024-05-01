@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from 'dotenv';
@@ -9,12 +9,19 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json({limit : "50mb"}));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000', // Replace with your frontend domain
+    methods: 'GET,POST,PUT,DELETE', // Specify allowed HTTP methods
+    allowedHeaders: 'Content-Type,Authorization', // Specify allowed headers
+    credentials: true // Allow cookies to be sent cross-origin
+};
+
+app.use(cors(corsOptions));
 
 app.use(router);
 
@@ -23,4 +30,4 @@ const PORT = process.env.PORT || "";
 app.listen(PORT, () => {
     console.log(`Alpha is online on ${PORT}`);
     connectDB();
-})
+});

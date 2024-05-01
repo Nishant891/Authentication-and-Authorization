@@ -8,6 +8,8 @@ export interface User {
 
 export interface Return {
     success: boolean;
+    accessToken: string,
+    refreshToken: string,
     message: string;
 }
 
@@ -22,6 +24,8 @@ export const createUser = async (user : User,) => {
 
         return {
             success: result.success,
+            accessToken: result.accessToken,
+            refreshToken: result.refreshToken,
             message: result.message,
         }
     } catch (error) {

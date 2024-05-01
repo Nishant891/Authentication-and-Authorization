@@ -18,7 +18,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useTransition } from 'react';
+import { useRouter } from "next/navigation";
 import axios, { AxiosResponse } from 'axios';
+import { useState } from 'react';
+import { useCookies } from "react-cookie"
 
 export interface User {
   username?: string;
@@ -27,6 +30,9 @@ export interface User {
 }
 
 export const LoginForm = () => {
+  const [accessTokenCookie, setAccessTokenCookie] = useCookies(["accessTokenCookie"])
+  const [refreshTokenCookie, setRefreshTokenCookie] = useCookies(["refreshTokenCookie"])
+  const router = useRouter();
   const [isPending] = useTransition();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
@@ -35,14 +41,33 @@ export const LoginForm = () => {
       password: ""
     },
   })
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = async (values : User) => {
     const response : AxiosResponse = await axios.post("http://localhost:8000/login", {
         ...values
     });
-    console.log(response);
+    if(response.data){
+      if (response.data.success) {
+        setAccessTokenCookie("accessTokenCookie", response.data.accessToken, {
+          path: "/",
+          maxAge: 3600, // Expires after 1hr
+          sameSite: "strict"
+        });
+        setRefreshTokenCookie("refreshTokenCookie", response.data.refreshToken, {
+          path: "/",
+          maxAge: 7200, // Expires after 2hr
+          sameSite: "strict"
+        });
+        setSuccessMessage(response.data.message);    
+        router.push("/");
+      } else {
+        setErrorMessage(response.data.message);
+      }
+    }
   }
-  const onSubmit =  (values : z.infer<typeof LoginFormSchema>) => {
+  const onSubmit = (values : z.infer<typeof LoginFormSchema>) => {
     handleSubmit(values);
   }
   return (
@@ -83,8 +108,8 @@ export const LoginForm = () => {
         />
         <Button disabled={isPending} className='w-full font-bold py-1' type="submit">Submit</Button>
       </form>
-      <FormError message=""/>
-      <FormSucess message=""/>
+      <FormError message={errorMessage}/>
+      <FormSucess message={successMessage}/>
     </Form>
     </CardWrapper>
   )
