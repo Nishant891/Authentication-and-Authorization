@@ -9,7 +9,7 @@
 ### 7.📨Change email and password with new verification mail
 ### 8. 🚪Role Gate
 ## Checkout my progress in the attached video.🚧
-<div>
+<div style="display: flex; justify-content: center; align-items: center;">
   https://www.loom.com/share/3642ee506baf4294a9109044da7249ea?sid=65bc17cf-33c2-464b-b0a7-3224397c2334
 </div>
 
