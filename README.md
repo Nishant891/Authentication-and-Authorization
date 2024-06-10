@@ -11,9 +11,6 @@
 ## Checkout my progress in the attached video.🚧
 <div>
     <a href="https://www.loom.com/share/3642ee506baf4294a9109044da7249ea">
-      <p>Library | Loom - 22 February 2024 - Watch Video</p>
-    </a>
-    <a href="https://www.loom.com/share/3642ee506baf4294a9109044da7249ea">
       <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/3642ee506baf4294a9109044da7249ea-with-play.gif">
     </a>
 </div>
